@@ -37,7 +37,7 @@ const String &MANUFACTURER = "ARM";
 const String &TYPE = "type";
 const String &MODEL_NUMBER = "2015";
 const String &SERIAL_NUMBER = "12345";
-const uint8_t STATIC_VALUE[] = "The Beautiful Globe";
+const String &Globe_VALUE = "LED";
 
 const char *rf_board_type(){
     rf_trx_part_e type = rf_radio_type_read();
@@ -132,7 +132,7 @@ bool MbedClient::create_interface()
     _interface = M2MInterfaceFactory::create_interface(*this,
                  MBED_ENDPOINT_NAME,
                  info_type,
-                 3600,
+                 100,
                  port,
                  MBED_DOMAIN,
                  M2MInterface::UDP,
@@ -192,14 +192,16 @@ M2MObject *MbedClient::create_generic_object()
             res->set_operation(M2MBase::GET_PUT_POST_ALLOWED);
             res->set_value((const uint8_t *)buffer,
                            (const uint32_t)size);
+            res->set_max_age(0);
             res->set_execute_function(execute_callback(this, &MbedClient::execute_function));
             _value++;
 
-            inst->create_static_resource("S",
+            res = inst->create_static_resource("S",
                                          "ResourceTest",
                                          M2MResourceInstance::STRING,
-                                         STATIC_VALUE,
-                                         sizeof(STATIC_VALUE) - 1);
+                                         (const uint8_t*)Globe_VALUE.c_str(),
+                                         (const uint32_t)Globe_VALUE.size());
+            res->set_max_age(0);
         }
     }
     return _object;
@@ -279,7 +281,7 @@ void MbedClient::registration_updated(M2MSecurity */*security_object*/, const M2
 void MbedClient::update_registration() {
     printf("update_registration()\r\n");
     if (_registered) {
-        _interface->update_registration(_register_security, 3600);
+        _interface->update_registration(_register_security, 100);
         _updating = true;
     }
 }
