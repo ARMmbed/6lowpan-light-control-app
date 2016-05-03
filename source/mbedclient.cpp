@@ -31,13 +31,15 @@
 #define STR_HELPER(x) #x
 #define STR(x) STR_HELPER(x)
 
+#define ENDPOINT_TYPE  "Lighting"
+
 using namespace mbed::util;
 
 const String &MANUFACTURER = "ARM";
 const String &TYPE = "type";
 const String &MODEL_NUMBER = "2015";
 const String &SERIAL_NUMBER = "12345";
-const String &Globe_VALUE = "LED";
+const String &Globe_VALUE = "The Beautiful Globe";
 
 const char *rf_board_type(){
     rf_trx_part_e type = rf_radio_type_read();
@@ -131,7 +133,7 @@ bool MbedClient::create_interface()
 
     _interface = M2MInterfaceFactory::create_interface(*this,
                  MBED_ENDPOINT_NAME,
-                 info_type,
+                 ENDPOINT_TYPE,
                  100,
                  port,
                  MBED_DOMAIN,

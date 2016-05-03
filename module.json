@@ -15,7 +15,7 @@
   "homepage": "https://github.com/ARMmbed/mbed-client-example-6lowpan",
   "license": "Apache-2.0",
   "dependencies": {
-    "mbed-client": "1.9.2",
+    "mbed-client": "1.9.3",
     "atmel-rf-driver": "2.1.0",
     "mbed-mesh-api": "2.3.0"
   },
